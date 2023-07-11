@@ -7,6 +7,19 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+
+```{r joe_setup_steps, include=FALSE}
+# be sure to git checkout the 2023 branch and use r version 4.2
+renv::init(); 1 # restore
+renv::activate()
+# In this 2023 branch, I am being told 'the following packages are used in this project, but not installed'. According to Simon, this should not be an issue
+
+
+```
+
+
+
 ## Introduction
 
 This repository contains the data and code for a comparison of the data-rich ICES MSY rule (category 1) to the ICES category 3 data-limited empirical methods (rfb rule, hr rule, <https://doi.org/10.17895/ices.advice.19801564>) and is the basis for the publication:
