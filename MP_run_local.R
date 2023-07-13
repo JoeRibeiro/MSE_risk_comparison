@@ -30,21 +30,26 @@ cl1 <- FALSE
 ### ------------------------------------------------------------------------ ###
 ### harvest rate & rfb rule: all stocks & OMs - default & optimised ####
 ### ------------------------------------------------------------------------ ###
-stocks <- c("ple.27.7e", "cod.27.47d20", "her.27.3a47d")
-OMs_cod <- c("baseline", "rec_higher", "M_dd", "M_no_migration", "rec_failure")
+stocks <- c("cod.27.47d20")
+OMs_cod <- c("baseline")
 OMs_ple <- c("baseline", "M_low", "M_high", "M_Gislason", "no_discards",
              "rec_no_AC", "rec_failure")
 OMs_her <- c("baseline", "rec_higher", "rec_failure",
              "M_high", "M_low")
-
+# stocks <- c("ple.27.7e", "cod.27.47d20", "her.27.3a47d")
+# OMs_cod <- c("baseline", "rec_higher", "M_dd", "M_no_migration", "rec_failure")
+# OMs_ple <- c("baseline", "M_low", "M_high", "M_Gislason", "no_discards",
+#              "rec_no_AC", "rec_failure")
+# OMs_her <- c("baseline", "rec_higher", "rec_failure",
+#              "M_high", "M_low")
 . <- foreach(stock = stocks) %:%
   foreach(OM = switch(stock,
     "ple.27.7e" = OMs_ple,
     "cod.27.47d20" = OMs_cod,
     "her.27.3a47d" = OMs_her
   )) %:%
-  foreach(MP = c("rfb", "hr"))  %:%
-  foreach(optimised = c("default", "multiplier", "all")) %do% {
+  foreach(MP = c("ICES_SAM"))  %:%
+  foreach(optimised = c("default")) %do% {
     #browser()
     cat(paste0("stock=", stock, " - OM=", OM, " - MP=", MP, " - optimised=",
                optimised, "\n"))
@@ -67,7 +72,7 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
                              "cod.27.47d20" = 0.95,
                              "her.27.3a47d" = 0.90)
       } else {
-        stop()
+        multiplier=1#stop()# Why was this stop? No multiplier is being passed in the linux shell script C:\Users\JR13\Documents\LOCAL_NOT_ONEDRIVE\MSE_risk_comparison(2023)
       }
     } else if (identical(optimised, "multiplier")) {
       if (identical(stock, "cod.27.47d20")) {
@@ -138,7 +143,7 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
       }
     }
     ### define local arguments
-    args_local <- c("ga_search=TRUE","n_blocks=1", "n_workers=0", 
+    args_local <- c("ga_search=FALSE","n_blocks=1", "n_workers=0", 
                     paste0("scenario=\'", scenario, "\'"),
                     paste0("MP=\'", MP, "\'"),
                     "n_yrs=20", "check_file=FALSE",

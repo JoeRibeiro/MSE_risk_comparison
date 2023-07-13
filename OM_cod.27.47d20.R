@@ -158,7 +158,7 @@ m_alt[ac(3:6), ac(2011:2021)] <- m_alt[ac(3:6), ac(2011:2021)] + log(1 - 0.15)
 #debugonce(create_OM)
 create_OM(stk_data = stk_input, idx_data = idx, n = 1000, n_years = 100,
           yr_data = 2020, int_yr = TRUE,
-          SAM_conf = ctrl_input, SAM_conf_full = TRUE, 
+          SAM_conf = ctrl_input, SAM_conf_full = F, 
           SAM_idx_weight = "index.var",
           SAM_newtonsteps = 0, SAM_rel.tol = 0.001,
           n_sample_yrs = 5, 
@@ -225,14 +225,14 @@ update_refpts <- function(stock_id = "cod.27.47d20", OM, refpts,
                                 "/1000_100/refpts_mse.rds"))
 }
 
-### baseline
-update_refpts(OM = "baseline", refpts = refpts, Blim_ratio = Blim_ratio)
-### higher recruitment
-update_refpts(OM = "rec_higher", refpts = refpts, Blim_ratio = Blim_ratio)
-### density dependent M
-update_refpts(OM = "M_dd", refpts = refpts, Blim_ratio = Blim_ratio)
-### M alternative: no migration correction for age 3+
-update_refpts(OM = "M_no_migration", refpts = refpts, Blim_ratio = Blim_ratio)
+# ### baseline
+# update_refpts(OM = "baseline", refpts = refpts, Blim_ratio = Blim_ratio)
+# ### higher recruitment
+# update_refpts(OM = "rec_higher", refpts = refpts, Blim_ratio = Blim_ratio)
+# ### density dependent M
+# update_refpts(OM = "M_dd", refpts = refpts, Blim_ratio = Blim_ratio)
+# ### M alternative: no migration correction for age 3+
+# update_refpts(OM = "M_no_migration", refpts = refpts, Blim_ratio = Blim_ratio)
 
 
 

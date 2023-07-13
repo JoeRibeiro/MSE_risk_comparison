@@ -1,0 +1,34 @@
+### This is Joe's script to address task number 4 set by simon, "4.	Run the code for the category 1 ICES MSY rule based on SAM (https://github.com/shfischer/MSE_risk_comparison/blob/master/MP_run.R, reduce iterations to e.g. n_iter=10, set MP="ICES_SAM", stock_id="cod.27.47d20", ga_search=FALSE) "
+### I have been pasting the contents into Git Bash / MINGW64
+STOCK_ID="'"'cod.27.47d20'"'"
+OM="'"'baseline'"'"
+SCENARIO="'"''"'"
+
+
+
+### set working directory
+cd 'C:/Users/JR13/Documents/LOCAL_NOT_ONEDRIVE/MSE_risk_comparison(2023)'
+
+# How is this achieved? Moving to the local.R script
+'C:/Program Files/R/R-4.2.2/bin/R.exe' source('C:/Users/JR13/Documents/LOCAL_NOT_ONEDRIVE/MSE_risk_comparison(2023)/MP_run.R')
+
+
+### activate MPI environment
+
+echo "starting the simulations..."
+### run job
+### when running with MPI, worker count is one less than selected cores
+R CMD BATCH --no-save --no-restore "--args use_MPI=FALSE n_workers=20 n_blocks=100 stock_id=$STOCK_ID n_iter=1000 n_yrs=20 scenario=$SCENARIO MP='ICES_SAM' OM=$OM rec_failure=FALSE ga_search=FALSE stat_yrs='multiple' save_MP=TRUE" $HOME/git/MSE_ple.27.7e/MP_run.R $HOME/reports/$PBS_JOBID.$PBS_ARRAY_INDEX.Rout
+## $PBS_ARRAY_INDEX
+
+echo ""
+echo "R job finished!"
+echo ""
+
+## print details about job
+echo "job details from PBS:"
+echo "==============================================================================="
+qstat -f
+echo "==============================================================================="
+qstat -t
+echo "==============================================================================="
