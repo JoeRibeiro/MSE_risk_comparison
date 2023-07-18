@@ -31,7 +31,7 @@ cl1 <- FALSE
 ### harvest rate & rfb rule: all stocks & OMs - default & optimised ####
 ### ------------------------------------------------------------------------ ###
 stocks <- c("cod.27.47d20")
-OMs_cod <- c("baseline")
+OMs_cod <- c("baseline", "rec_higher", "M_dd", "M_no_migration", "rec_failure")
 OMs_ple <- c("baseline", "M_low", "M_high", "M_Gislason", "no_discards",
              "rec_no_AC", "rec_failure")
 OMs_her <- c("baseline", "rec_higher", "rec_failure",
@@ -44,12 +44,12 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
 #              "M_high", "M_low")
 . <- foreach(stock = stocks) %:%
   foreach(OM = switch(stock,
-    "ple.27.7e" = OMs_ple,
-    "cod.27.47d20" = OMs_cod,
-    "her.27.3a47d" = OMs_her
+                      "ple.27.7e" = OMs_ple,
+                      "cod.27.47d20" = OMs_cod,
+                      "her.27.3a47d" = OMs_her
   )) %:%
-  foreach(MP = c("ICES_SAM"))  %:%
-  foreach(optimised = c("default")) %do% {
+  foreach(MP = c("hr","rfb","ICES_SAM"))  %:%
+  foreach(optimised = c("default", "multiplier", "all")) %do% {
     #browser()
     cat(paste0("stock=", stock, " - OM=", OM, " - MP=", MP, " - optimised=",
                optimised, "\n"))
@@ -57,6 +57,7 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
       rm(lag_idx, range_idx_1, range_idx_2, range_catch, exp_r, exp_f, exp_b, 
        interval, multiplier, upper_constraint, lower_constraint,
        idxB_lag, idxB_range_3, comp_b_multiplier))
+    multiplier=1 # else it will complain that it is not present
     ### change if recruitment failure included
     scenario <- ifelse(OM == "rec_failure", "rec_failure", "")
     rec_failure <- ifelse(OM == "rec_failure", TRUE, FALSE)
@@ -142,6 +143,7 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
         }
       }
     }
+    
     ### define local arguments
     args_local <- c("ga_search=FALSE","n_blocks=1", "n_workers=0", 
                     paste0("scenario=\'", scenario, "\'"),
@@ -169,5 +171,6 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
                             paste0("exp_b=", exp_b),
                             paste0("comp_b_multiplier=", comp_b_multiplier),
                             paste0("interval=", interval)))
-    source("MP_run.R")
+    
+    if(all(MP == "ICES_SAM", optimised != 'default')==F){  source("MP_run.R") }
 }
