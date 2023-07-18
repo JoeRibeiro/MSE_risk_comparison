@@ -22,7 +22,7 @@ res <- foreach(MP = c("rfb", "hr", "ICES_SAM"),
                .combine = bind_rows) %:%
   foreach(stock = c("cod.27.47d20"), 
           .combine = bind_rows) %:%
-  foreach(OM = c("baseline", "rec_higher", "M_dd", "M_no_migration", "rec_failure"), .combine = bind_rows) %:%
+  foreach(OM = c("baseline", "rec_higher", "M_dd", "M_no_migration"), .combine = bind_rows) %:%
   foreach(optimised = c("default", "multiplier", "all"), 
           .combine = bind_rows) %:%
   foreach(period = c("1-20", "11-20"), .combine = bind_rows) %do% {
@@ -30,7 +30,7 @@ res <- foreach(MP = c("rfb", "hr", "ICES_SAM"),
     res_i <- data.frame(stock = stock, OM = OM, MP = MP, optimised = optimised, 
                         period = period)
     if (MP %in% c("rfb", "hr")) {
-      ga_path <- paste0("output/", stock, "/", OM, "/1000_20/multiplier/", MP, 
+      ga_path <- paste0("output/", stock, "/", OM, "/1000_20/", MP, 
                         "/")
       if (isTRUE(MP %in% c("rfb", "hr")) & 
           optimised %in% c("default", "multiplier")) {
