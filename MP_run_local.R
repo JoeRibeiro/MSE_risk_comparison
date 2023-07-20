@@ -26,12 +26,20 @@ source("funs_WKNSMSE.R")
 source("funs_OM.R")
 
 cl1 <- FALSE
+# for debugging in rstudio, try to replicate 'C:/Program Files/R/R-4.2.2/bin/Rscript.exe' MP_run.R use_MPI=FALSE n_workers=13 n_blocks=100 stock_id=$STOCK_ID n_iter=10 n_yrs=20 scenario=$SCENARIO MP=$MP OM=$OM rec_failure=FALSE ga_search=FALSE stat_yrs=$stat_yrs save_MP=TRUE optimised=$optimised
+# where
+# STOCK_ID="'"'cod.27.47d20'"'"
+# OM="'"'baseline'"'"
+# optimised="'"'default'"'"
+# SCENARIO="'"''"'"
+# MP="'"'ICES_SAM'"'"
+# stat_yrs="'"'multiple'"'"
 
 ### ------------------------------------------------------------------------ ###
 ### harvest rate & rfb rule: all stocks & OMs - default & optimised ####
 ### ------------------------------------------------------------------------ ###
 stocks <- c("cod.27.47d20")
-OMs_cod <- c("baseline", "rec_higher", "M_dd", "M_no_migration", "rec_failure")
+OMs_cod <- c("baseline")#, "rec_higher", "M_dd", "M_no_migration", "rec_failure")
 OMs_ple <- c("baseline", "M_low", "M_high", "M_Gislason", "no_discards",
              "rec_no_AC", "rec_failure")
 OMs_her <- c("baseline", "rec_higher", "rec_failure",
@@ -48,8 +56,8 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
                       "cod.27.47d20" = OMs_cod,
                       "her.27.3a47d" = OMs_her
   )) %:%
-  foreach(MP = c("hr","rfb","ICES_SAM"))  %:%
-  foreach(optimised = c("default", "multiplier", "all")) %do% {
+  foreach(MP = c("ICES_SAM"))  %:%
+  foreach(optimised = c("default")) %do% {
     #browser()
     cat(paste0("stock=", stock, " - OM=", OM, " - MP=", MP, " - optimised=",
                optimised, "\n"))
@@ -143,9 +151,9 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
         }
       }
     }
-    
+
     ### define local arguments
-    args_local <- c("ga_search=FALSE","n_blocks=1", "n_workers=0", 
+    args_local <- c("ga_search=FALSE","n_blocks=100", "n_workers=13", 
                     paste0("scenario=\'", scenario, "\'"),
                     paste0("MP=\'", MP, "\'"),
                     "n_yrs=20", "check_file=FALSE",

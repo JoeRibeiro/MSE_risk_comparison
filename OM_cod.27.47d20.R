@@ -22,6 +22,8 @@ source("funs.R")
 source("funs_WKNSMSE.R")
 source("funs_OM.R")
 
+iterations = 10
+
 ### load input data
 stk <- readRDS("input/cod.27.47d20/preparation/stk.rds")
 idx <- readRDS("input/cod.27.47d20/preparation/idx.rds")
@@ -79,10 +81,10 @@ if (FALSE) {
 #                    idx_weight = "index.var")
 # 
 # set.seed(1)
-# unc_light <- SAM_uncertainty2(fit = fit_tmp, n = 1000)
+# unc_light <- SAM_uncertainty2(fit = fit_tmp, n = iterations)
 # ### all on
 # set.seed(1)
-# unc_orig <- SAM_uncertainty2(fit = fit, n = 1000)
+# unc_orig <- SAM_uncertainty2(fit = fit, n = iterations)
 # set.seed(1)
 # unc_orig_1 <- SAM_uncertainty2(fit = fit, n = 1)
 # 
@@ -104,7 +106,7 @@ if (FALSE) {
 
 ### default OM
 #debugonce(create_OM)
-create_OM(stk_data = stk_input, idx_data = idx, n = 1000, n_years = 100,
+create_OM(stk_data = stk_input, idx_data = idx, n = iterations, n_years = 100,
           yr_data = 2020, int_yr = TRUE,
           SAM_conf = ctrl_input, SAM_conf_full = FALSE, 
           SAM_idx_weight = "index.var",
@@ -120,7 +122,7 @@ create_OM(stk_data = stk_input, idx_data = idx, n = 1000, n_years = 100,
 
 
 ### higher recruitment - from 1988 instead of 1998
-create_OM(stk_data = stk_input, idx_data = idx, n = 1000, n_years = 100,
+create_OM(stk_data = stk_input, idx_data = idx, n = iterations, n_years = 100,
           yr_data = 2020, int_yr = TRUE,
           SAM_conf = ctrl_input, SAM_conf_full = FALSE, 
           SAM_idx_weight = "index.var",
@@ -136,7 +138,7 @@ create_OM(stk_data = stk_input, idx_data = idx, n = 1000, n_years = 100,
           return = FALSE, M_alternative = NULL)
 
 ### density dependent M
-create_OM(stk_data = stk_input, idx_data = idx, n = 1000, n_years = 100,
+create_OM(stk_data = stk_input, idx_data = idx, n = iterations, n_years = 100,
           yr_data = 2020, int_yr = TRUE,
           SAM_conf = ctrl_input, SAM_conf_full = FALSE, 
           SAM_idx_weight = "index.var",
@@ -156,7 +158,7 @@ create_OM(stk_data = stk_input, idx_data = idx, n = 1000, n_years = 100,
 m_alt <- m(stk_input)
 m_alt[ac(3:6), ac(2011:2021)] <- m_alt[ac(3:6), ac(2011:2021)] + log(1 - 0.15)
 #debugonce(create_OM)
-create_OM(stk_data = stk_input, idx_data = idx, n = 1000, n_years = 100,
+create_OM(stk_data = stk_input, idx_data = idx, n = iterations, n_years = 100,
           yr_data = 2020, int_yr = TRUE,
           SAM_conf = ctrl_input, SAM_conf_full = F, 
           SAM_idx_weight = "index.var",
@@ -187,9 +189,9 @@ create_OM(stk_data = stk_input, idx_data = idx, n = 1000, n_years = 100,
 ### update MSY reference points for alternative OMs ####
 ### ------------------------------------------------------------------------ ###
 
-stk_baseline <- readRDS("input/cod.27.47d20/baseline/1000_100/stk.rds")
+stk_baseline <- readRDS("input/cod.27.47d20/baseline/10_100/stk.rds")
 Blim <- 69841 # from ICES Advice Sheet 2021
-sr_baseline <- readRDS("input/cod.27.47d20/baseline/1000_100/sr.rds")
+sr_baseline <- readRDS("input/cod.27.47d20/baseline/10_100/sr.rds")
 ### find ratio of R(SSB=Blim)/R0 -> definition of Blim
 iterMedians(params(sr_baseline))["b"]
 ### R/R0 approach does not work because Blim is on plateau of hockey-stick model
@@ -203,26 +205,27 @@ Blim_ratio <- 1
 
 
 
-refpts <- FLPar(refpts, iter = 1000, unit = "")
+refpts <- FLPar(refpts, iter = iterations, unit = "")
 update_refpts <- function(stock_id = "cod.27.47d20", OM, refpts, 
                           Blim_ratio = FALSE) {
   ### get MSY levels 
   refpts_MSY <- readRDS(paste0("input/", stock_id, "/", OM,
-                               "/1000_100/MSY_trace.rds"))
+                               "/",iterations,"_100/MSY_trace.rds"))
   refpts_MSY <- refpts_MSY[[which.max(sapply(refpts_MSY, function(x) x$catch))]]
   ### update
   refpts["Fmsy"] <- refpts_MSY$Ftrgt
   refpts["Bmsy"] <- refpts_MSY$ssb
   refpts["Cmsy"] <- refpts_MSY$catch
   ### load recruitment model and estimate Blim
-  sr_mse <- readRDS(paste0("input/", stock_id, "/", OM, "/1000_100/sr.rds"))
+  sr_mse <- readRDS(paste0("input/", stock_id, "/", OM,
+                           "/",iterations,"_100/sr.rds"))
   pars <- iterMedians(params(sr_mse))
   if (!isFALSE(Blim_ratio))
     refpts["Blim"] <- c(pars["b"])*Blim_ratio
   print(refpts)
   ### save updated values
   saveRDS(refpts, file = paste0("input/", stock_id, "/", OM,
-                                "/1000_100/refpts_mse.rds"))
+                                "/",iterations,"_100/refpts_mse.rds"))
 }
 
 # ### baseline

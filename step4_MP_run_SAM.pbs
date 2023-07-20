@@ -2,6 +2,7 @@
 ### I have been pasting the contents into Git Bash / MINGW64
 STOCK_ID="'"'cod.27.47d20'"'"
 OM="'"'baseline'"'"
+optimised="'"'default'"'"
 SCENARIO="'"''"'"
 MP="'"'ICES_SAM'"'"
 stat_yrs="'"'multiple'"'"
@@ -10,5 +11,8 @@ stat_yrs="'"'multiple'"'"
 ### set working directory
 cd 'C:/Users/JR13/Documents/LOCAL_NOT_ONEDRIVE/MSE_risk_comparison(2023)'
 
-### Run like so
-'C:/Program Files/R/R-4.2.2/bin/Rscript.exe' MP_run.R use_MPI=FALSE n_workers=20 n_blocks=100 stock_id=$STOCK_ID n_iter=10 n_yrs=20 scenario=$SCENARIO MP=$MP OM=$OM rec_failure=FALSE ga_search=FALSE stat_yrs=$stat_yrs save_MP=TRUE
+### create OM, this script was set up for 10 iterations
+'C:/Program Files/R/R-4.2.2/bin/Rscript.exe' OM_cod.27.47d20.R
+
+### Assess management procedures
+'C:/Program Files/R/R-4.2.2/bin/Rscript.exe' MP_run.R use_MPI=FALSE n_workers=13 n_blocks=100 stock_id=$STOCK_ID n_iter=10 n_yrs=20 scenario=$SCENARIO MP=$MP OM=$OM rec_failure=FALSE ga_search=FALSE stat_yrs=$stat_yrs save_MP=TRUE optimised=$optimised
