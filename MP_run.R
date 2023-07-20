@@ -10,7 +10,6 @@ args <- commandArgs(TRUE)
 if (exists(x = "args_local")) args <- append(args, args_local)
 print("arguments passed on to this script:")
 print(args)
-print('start')
 
 ### evaluate arguments, if they are passed to R:
 if (length(args) > 0) {
@@ -150,7 +149,6 @@ if (isTRUE(use_MPI)) {
 ### ------------------------------------------------------------------------ ###
 ### load OM and create input for MSE ####
 ### ------------------------------------------------------------------------ ###
-print('input')
 
 input <- input_mp(stock_id = stock_id, OM = OM, n_iter = n_iter,
                   n_yrs = n_yrs, yr_start = yr_start, n_blocks = n_blocks,
@@ -194,8 +192,7 @@ if (isTRUE(MP %in% c("rfb", "hr")) & isTRUE(ga_search)) {
     ga_lower <-   c(0, 1, 0, 0,   1, 0, 1,   0)
     ga_upper <-   c(1, 5, 2, 2,   5, 5, 5,   1)
   }
-  print('1')
-  
+
   ### turn of parameters not requested, i.e. limit to default value
   pos_default <- which(sapply(mget(ga_names, ifnotfound = FALSE), isFALSE))
   ga_lower[pos_default] <- ga_default[pos_default]
@@ -221,8 +218,7 @@ if (isTRUE(MP %in% c("rfb", "hr")) & isTRUE(ga_search)) {
       }
       ga_suggestions <- unique(ga_suggestions)
     }
-    print('2')
-    
+
     par_fixed_multiple <- names(which(sapply(val_fixed, length) > 1))
     if (isTRUE(length(par_fixed_multiple) > 0)) {
       val_fixed_multiple <- val_fixed[par_fixed_multiple]
@@ -244,8 +240,7 @@ if (isTRUE(MP %in% c("rfb", "hr")) & isTRUE(ga_search)) {
   ### finalise
   ga_suggestions <- unique(ga_suggestions)
   names(ga_suggestions) <- ga_names
-  print('3')
-  
+
   ### if only one parameter modified & fixed, 
   ### run all supplied values instead of GA search
   if (exists("par_fixed")) {
@@ -260,8 +255,7 @@ if (isTRUE(MP %in% c("rfb", "hr")) & isTRUE(ga_search)) {
   ### ---------------------------------------------------------------------- ###
   ### paths ####
   ### ---------------------------------------------------------------------- ###
-  print('paths')
-  
+
   ### output path
   ### set name depending on which GA parameters are used
   scn_pars <- ga_names[setdiff(seq_along(ga_names), pos_default)]
@@ -290,8 +284,7 @@ if (isTRUE(MP %in% c("rfb", "hr")) & isTRUE(ga_search)) {
   ### ------------------------------------------------------------------------ ###
   ### check if previous solutions can be used as suggestions ####
   ### ------------------------------------------------------------------------ ###
-  print('check previous')
-  
+
   ### years for summary statistics
   file_ext <- ifelse(obj_yrs == "all", "_res",
                      paste0("_res_", 
@@ -351,7 +344,6 @@ if (isTRUE(MP %in% c("rfb", "hr")) & isTRUE(ga_search)) {
   ### set random seed for reproducibility
   registerDoRNG(123)
   set.seed(1)
-  print('running ga')
   ### run GA
   system.time({
     res <- ga(type = "real-valued", fitness = mp_fitness, inp_file = inp_file,

@@ -153,7 +153,7 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
     }
 
     ### define local arguments
-    args_local <- c("ga_search=FALSE","n_blocks=100", "n_workers=13", 
+    args_local <- c("ga_search=FALSE","n_blocks=1", "n_workers=13", 
                     paste0("scenario=\'", scenario, "\'"),
                     paste0("MP=\'", MP, "\'"),
                     "n_yrs=20", "check_file=FALSE",
