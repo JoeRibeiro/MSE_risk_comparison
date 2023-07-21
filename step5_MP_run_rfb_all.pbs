@@ -14,10 +14,10 @@ STAT_YRS="'"'multiple'"'"
 cd 'C:/Users/JR13/Documents/LOCAL_NOT_ONEDRIVE/MSE_risk_comparison(2023)'
 
 ### Assess management procedures
-'C:/Program Files/R/R-4.2.2/bin/Rscript.exe' MP_run.R use_MPI=FALSE n_workers=13 n_blocks=1 m stock_id=$STOCK_ID n_iter=10 n_yrs=20 scenario=$SCENARIO MP=$MP OM=$OM ga_search=TRUE stat_yrs=$stat_yrs save_MP=TRUE comp_r=TRUE comp_f=TRUE comp_b=TRUE cap_below_b=FALSE  ga_search=TRUE  range_catch=FALSE upper_constraint=1.2 lower_constraint=0.7 obj_fun=$OBJ_FUN obj_yrs=$OBJ_YRS stat_yrs=$STAT_YRS pen_neg=FALSE pen_max=1 pen_infl=0.06 pen_steep=1000 collate=TRUE add_suggestions=TRUE  popSize=1000 maxiter=100 run=10 lag_idx=TRUE  range_idx_1=TRUE range_idx_2=TRUE  exp_r=TRUE  exp_f=TRUE  exp_b=TRUE  interval=TRUE multiplier=TRUE
+'C:/Program Files/R/R-4.2.2/bin/Rscript.exe' MP_run.R use_MPI=FALSE n_workers=13 n_blocks=1 stock_id=$STOCK_ID n_iter=10 n_yrs=20 scenario=$SCENARIO MP=$MP OM=$OM ga_search=TRUE stat_yrs=$stat_yrs save_MP=TRUE comp_r=TRUE comp_f=TRUE comp_b=TRUE cap_below_b=FALSE  ga_search=TRUE  range_catch=FALSE upper_constraint=1.2 lower_constraint=0.7 obj_fun=$OBJ_FUN obj_yrs=$OBJ_YRS stat_yrs=$STAT_YRS pen_neg=FALSE pen_max=1 pen_infl=0.06 pen_steep=1000 collate=TRUE add_suggestions=TRUE  popSize=1000 maxiter=100 run=10 lag_idx=TRUE  range_idx_1=TRUE range_idx_2=TRUE  exp_r=TRUE  exp_f=TRUE  exp_b=TRUE  interval=TRUE multiplier=TRUE
 ### rec_failure=FALSE ga_search=FALSE save_MP=TRUE optimised=$optimised - these things were different in simon's script
 
-			lots of things changed from the mult script. Mult inputs:
-			popSize=201  maxiter=1   run=1  lag_idx=FALSE range_idx_1=FALSE range_idx_2=FALSE exp_r=FALSE exp_f=FALSE exp_b=FALSE interval=FALSE multiplier=seq(0,2,0.01) 
-			all inputs that are different:
-			popSize=1000 maxiter=100 run=10 lag_idx=TRUE  range_idx_1=TRUE  range_idx_2=TRUE  exp_r=TRUE  exp_f=TRUE  exp_b=TRUE  interval=TRUE multiplier=TRUE
+###			lots of things changed from the mult script. Mult inputs:
+###			popSize=201  maxiter=1   run=1  lag_idx=FALSE range_idx_1=FALSE range_idx_2=FALSE exp_r=FALSE exp_f=FALSE exp_b=FALSE interval=FALSE multiplier=seq(0,2,0.01) 
+###			all inputs that are different:
+###			popSize=1000 maxiter=100 run=10 lag_idx=TRUE  range_idx_1=TRUE  range_idx_2=TRUE  exp_r=TRUE  exp_f=TRUE  exp_b=TRUE  interval=TRUE multiplier=TRUE
