@@ -7,7 +7,7 @@ stat_yrs="'"'multiple'"'"
 OBJ_FUN="'"'ICES'"'"
 OBJ_YRS="'"'11:20'"'"
 STAT_YRS="'"'multiple'"'"
-MULTIPLIER = "'"'seq(0,2,0.01)'"'"
+MULTIPLIER="'"'seq(0,2,0.01)'"'"
 
 
 ### set working directory
