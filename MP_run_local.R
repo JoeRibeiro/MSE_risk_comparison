@@ -56,7 +56,7 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
                       "cod.27.47d20" = OMs_cod,
                       "her.27.3a47d" = OMs_her
   )) %:%
-  foreach(MP = c("ICES_SAM"))  %:%
+  foreach(MP = c("rfb"))  %:%
   foreach(optimised = c("default")) %do% {
     #browser()
     cat(paste0("stock=", stock, " - OM=", OM, " - MP=", MP, " - optimised=",
@@ -153,16 +153,17 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
     }
 
     ### define local arguments
-    args_local <- c("ga_search=FALSE","n_blocks=1", "n_workers=13", 
+    args_local <- c("ga_search=TRUE","n_blocks=1", "n_workers=0", 
                     paste0("scenario=\'", scenario, "\'"),
                     paste0("MP=\'", MP, "\'"),
                     "n_yrs=20", "check_file=FALSE",
                     paste0("stock_id=\'", stock, "\'"),
                     paste0("OM=\'", OM, "\'"),
-                    "save_MP=TRUE", "popSize=1", "maxiter=1",
+                    "save_MP=TRUE", "popSize=1000", "maxiter=10",
                     paste0("multiplier=", multiplier, ""),
-                    "add_suggestions=FALSE", "collate=FALSE")
-    if (identical(MP, "rfb") & identical(optimised, "all")) 
+                    "add_suggestions=FALSE", "run=10", "comp_r=TRUE","comp_f=TRUE","comp_b=TRUE",
+    "cap_below_b=FALSE","ga_search=TRUE","range_catch=FALSE","upper_constraint=0.5","lower_constraint=0.3","obj_fun='ICES'","obj_yrs=11:20","collate=TRUE","interval=TRUE")
+if (identical(MP, "rfb") & identical(optimised, "all")) 
       args_local <- append(args_local, 
                            c(paste0("lag_idx=", lag_idx),
                             paste0("range_idx_1=", range_idx_1),
@@ -180,5 +181,6 @@ OMs_her <- c("baseline", "rec_higher", "rec_failure",
                             paste0("comp_b_multiplier=", comp_b_multiplier),
                             paste0("interval=", interval)))
     
-    if(all(MP == "ICES_SAM", optimised != 'default')==F){  source("MP_run.R") }
+    if(all(MP == "ICES_SAM", optimised != 'default')==F){  
+      source("MP_run.R") }
 }

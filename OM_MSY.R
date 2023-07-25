@@ -7,6 +7,8 @@
 ### ------------------------------------------------------------------------ ###
 args <- commandArgs(TRUE)
 print("arguments passed on to this script:")
+n_workers=1;stock_id='cod.27.47d20';OM='baseline';yr_start=2021;n_iter=10;vals_ini=seq(0,1,0.1);lower=0;upper=0.7;tol=0.001;plot=TRUE;x_label='F';save=TRUE
+
 print(args)
 
 ### extract arguments
@@ -17,7 +19,7 @@ if (!exists("stock_id")) stock_id <- "ple.27.7e"
 if (!exists("OM")) OM <- "baseline"
 #OM <- c("baseline", "M_low", "M_high", "M_Gislason", "rec_no_AC")
 if (!exists("yr_start")) yr_start <- 2021
-if (!exists("n_iter")) n_iter <- 1000
+if (!exists("n_iter")) n_iter <- 10
 if (!exists("vals_ini")) vals_ini <- seq(0, 1, 0.1)
 if (!exists("lower")) lower <- 0
 if (!exists("upper")) upper <- 0.3

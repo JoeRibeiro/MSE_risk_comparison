@@ -53,7 +53,6 @@ refpts <- list(
   Lc = 20, Lref = 0.75*20 + 0.25*117
 )
 
-
 ### include maturity estimates from model 
 stk_input <- stk
 mat(stk_input) <- SAM2FLStock(fit, mat_est = TRUE)@mat
@@ -188,7 +187,6 @@ create_OM(stk_data = stk_input, idx_data = idx, n = iterations, n_years = 100,
 ### ------------------------------------------------------------------------ ###
 ### update MSY reference points for alternative OMs ####
 ### ------------------------------------------------------------------------ ###
-
 stk_baseline <- readRDS("input/cod.27.47d20/baseline/10_100/stk.rds")
 Blim <- 69841 # from ICES Advice Sheet 2021
 sr_baseline <- readRDS("input/cod.27.47d20/baseline/10_100/sr.rds")
